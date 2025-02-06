@@ -21,7 +21,7 @@
             const email = document.getElementById("email").value;
             const senha = document.getElementById("senha").value;
 
-            const response = await fetch("https://SEU-LINK-DO-RENDER/adicionar-usuario", {
+            const response = await fetch("https://painel-administrativo.onrender.com", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, senha }),
