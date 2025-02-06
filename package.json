@@ -1,1 +1,14 @@
-
+{
+  "name": "painel-administrativo",
+  "version": "1.0.0",
+  "description": "Aplicativo de gerenciamento de usuários para Telegram",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "firebase-admin": "^11.0.0",
+    "cors": "^2.8.5"
+  }
+}
