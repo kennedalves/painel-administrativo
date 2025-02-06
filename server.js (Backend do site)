@@ -3,7 +3,7 @@ const admin = require("firebase-admin");
 const cors = require("cors");
 
 // Carrega a chave JSON do Firebase (coloque o nome correto do arquivo)
-const serviceAccount = require("./sua-chave-firebase.json");
+const serviceAccount = require("./meu-projeto-firebase.json");
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
