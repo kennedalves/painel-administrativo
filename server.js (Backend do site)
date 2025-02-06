@@ -1,0 +1,47 @@
+const express = require("express");
+const admin = require("firebase-admin");
+const cors = require("cors");
+
+// Carrega a chave JSON do Firebase (coloque o nome correto do arquivo)
+const serviceAccount = require("./sua-chave-firebase.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+});
+
+const db = admin.firestore();
+const app = express();
+app.use(express.json());
+app.use(cors());
+
+// Rota para adicionar um novo usuário (chamado pelo painel)
+app.post("/adicionar-usuario", async (req, res) => {
+  const { email, senha } = req.body;
+
+  if (!email || !senha) {
+    return res.status(400).json({ erro: "Email e senha são obrigatórios" });
+  }
+
+  try {
+    await db.collection("usuarios").doc(email).set({ senha });
+    res.json({ mensagem: "Usuário adicionado com sucesso!" });
+  } catch (erro) {
+    res.status(500).json({ erro: "Erro ao adicionar usuário" });
+  }
+});
+
+// Rota para validar login no app
+app.post("/login", async (req, res) => {
+  const { email, senha } = req.body;
+  const usuarioRef = db.collection("usuarios").doc(email);
+  const usuario = await usuarioRef.get();
+
+  if (!usuario.exists || usuario.data().senha !== senha) {
+    return res.status(401).json({ erro: "Credenciais inválidas" });
+  }
+
+  res.json({ mensagem: "Login bem-sucedido!" });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
